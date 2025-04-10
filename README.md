@@ -2,6 +2,8 @@
 
 A collection of custom aliases that significantly improves the efficiency of Git Bash operations. Shortens repetitive commands and streamlines development workflows.
 
+[日本語](jp/JP_README.md) | [한국어](ko/KO_README.md)
+
 ## Overview
 
 This repository provides convenient alias configurations for using Git Bash in Windows environments. It includes configuration files that make it easy to execute common Git operations and shell commands.
