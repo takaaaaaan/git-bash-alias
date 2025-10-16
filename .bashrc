@@ -13,71 +13,86 @@ alias c='clear'
 alias d='cd ~/Desktop'
 
 # git alias
-alias gc='git checkout'               # ブランチ切り替え
-alias gcb='git checkout -b'           # 新しいブランチを作成してチェックアウト
-alias gb='git branch'                 # ローカルブランチ一覧
-alias gba='git branch -a'             # リモートブランチ，ローカルブレンチ一覧表示
-alias gbd='git branch -d'             # ブランチ削除
-alias gbD='git branch -D'             # 強制ブランチ削除
-alias gbrd='git push origin --delete' # リモートブランチ削除
-alias gf='git fetch --prune'          # リモートリポジトリの最新情報取得
-alias gm='git merge'                  # マージ
-alias gp='git pull'                   # プル
-alias gs='git status && git log --oneline --graph --all'  # 状態とログを一度に確認
-alias gst='git status'                # git ステータス
-alias gl='git log --oneline --graph --all' # 簡易ログ表示
-alias gll='git log --stat'            # 詳細ログ
+alias g='git'
+alias gc='git checkout'               # Switch branch
+alias gcb='git checkout -b'           # Create new branch and checkout
+alias gcd='git checkout develop'      # Checkout develop branch
+alias gb='git branch'                 # List local branches
+alias gba='git branch -a'             # List remote and local branches
+alias gbd='git branch -d'             # Delete branch
+alias gbD='git branch -D'             # Force delete branch
+alias gbrd='git push origin --delete' # Delete remote branch
+alias gf='git fetch --prune'          # Fetch latest remote repository info
+alias clean-branch='git fetch --prune && git branch -vv | grep ": gone]" | awk '\''{print $1}'\'' | xargs git branch -D' # Delete local branches that don't exist on remote
+alias gm='git merge'                  # Merge
+alias gmrset='git merge --abort'      # Abort merge
+alias gp='git pull'                   # Pull
+alias gs='git status && git log --oneline --graph --all'  # Check status and log at once
+alias gst='git status'                # Git status
+alias gl='git log --oneline --graph --all' # Simple log display
+alias gll='git log --stat'            # Detailed log
 
-alias gps='git push'                  # プッシュ
-alias gpf='git push --force'          # 強制プッシュ
-alias ga='git add .'                  # すべての変更をステージング
-alias gaa='git add -A'                # すべての変更 (削除されたファイルも含む) をステージング
-alias gcm='git commit -m'             # コミット
-alias gca='git commit --amend'        # 最後のコミット修正
+alias gps='git push'                  # Push
+alias gpf='git push --force'          # Force push
+alias ga='git add .'                  # Stage all changes
+alias gaa='git add -A'                # Stage all changes (including deleted files)
+alias gcm='git commit -m'             # Commit
+alias gca='git commit --amend'        # Amend last commit
 
-alias gr='git reset'                  # リセット
-alias grh='git reset --hard'          # ハードリセット
+alias gr='git reset'                  # Reset
+alias grh='git reset --hard ORIG_HEAD' # Hard reset
+alias grs='git reset --soft ORIG_HEAD' # Undo commit
+alias grso='git reset --soft HEAD~1'   # Undo last commit
 
-# スタッシュ操作
-alias gsta='git stash'                # スタッシュ保存
-alias gstaap='git stash apply'        # スタッシュ適用
-alias gstd='git stash drop'           # スタッシュ削除
+# Stash operations
+alias gsta='git stash'                # Save stash
+alias gstaap='git stash apply'        # Apply stash
+alias gstd='git stash drop'           # Delete stash
 
-# 基本リベース操作
-alias grb='git rebase'                # 通常のリベース
-alias grbi='git rebase -i'            # インタラクティブリベース
-alias grbc='git rebase --continue'    # リベース継続
-alias grba='git rebase --abort'       # リベース中止
-alias grbs='git rebase --skip'        # コンフリクトスキップ
+# Basic rebase operations
+alias grb='git rebase'                # Normal rebase
+alias grbi='git rebase -i'            # Interactive rebase
+alias grbc='git rebase --continue'    # Continue rebase
+alias grba='git rebase --abort'       # Abort rebase
+alias grbs='git rebase --skip'        # Skip conflict
 
-# 特定のブランチにリベース
-alias grbm='git rebase master'        # master にリベース
-alias grbd='git rebase develop'       # develop にリベース
+# Rebase to specific branch
+alias grbm='git rebase master'        # Rebase to master
+alias grbd='git rebase develop'       # Rebase to develop
 
-# リベース前のバックアップ
-alias grbb='git branch backup-before-rebase'  # リベース前にバックアップ
+# Backup before rebase
+alias grbb='git branch backup-before-rebase'  # Backup before rebase
 
 # npm alias
-alias ni='npm install'          # パッケージインストール
-alias nis='npm install --save'  # 依存関係を保存してインストール
-alias nid='npm install --save-dev'  # 開発用依存関係インストール
-alias nr='npm run'              # npmスクリプト実行
-alias nn='npm run dev'          # 開発用スクリプト実行
-alias nb='npm run build'        # ビルドスクリプト実行
-alias nt='npm test'             # テスト実行
-alias nun='npm uninstall'       # パッケージアンインストール
+alias ni='npm install'          # Install package
+alias nis='npm install --save'  # Install and save dependency
+alias nid='npm install --save-dev'  # Install dev dependency
+alias nr='npm run'              # Run npm script
+alias nn='npm run dev'          # Run dev script
+alias nb='npm run build'        # Run build script
+alias nt='npm test'             # Run test
+alias nun='npm uninstall'       # Uninstall package
+alias ns='npm start'            # Run start script
 
-# 履歴設定
-export HISTFILE=~/.bash_history    # 履歴ファイルのパス
-export HISTSIZE=1000              # 履歴の保存件数
-export HISTFILESIZE=2000          # 履歴ファイルの最大サイズ
-export HISTCONTROL=ignoredups     # 重複したコマンドを無視
-shopt -s histappend               # セッション間で履歴を追記
-PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND" # セッション間で同期
+# next.js alias
+alias n='npm run dev'
+alias rn='rm -r .next/'
+alias rnn='rm -r node_modules/'
+alias nv='source venv/Scripts/activate'
 
-# 重複したコマンドを記録しない
+alias ip='ipconfig'
+
+# History settings
+export HISTFILE=~/.bash_history    # History file path
+export HISTSIZE=1000              # Number of history entries to save
+export HISTFILESIZE=2000          # Maximum size of history file
+export HISTCONTROL=ignoredups     # Ignore duplicate commands
+shopt -s histappend               # Append history between sessions
+PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND" # Sync between sessions
+
+# Don't record duplicate commands
 export HISTCONTROL=ignoredups:erasedups
 
-# 各セッション終了時に履歴を保存
+# Save history when each session ends
 shopt -s histappend
-
+export PATH="$HOME/.bun/bin:$PATH"

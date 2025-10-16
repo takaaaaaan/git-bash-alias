@@ -13,15 +13,19 @@ alias c='clear'
 alias d='cd ~/Desktop'
 
 # git alias
+alias g='git'
 alias gc='git checkout'               # ブランチ切り替え
 alias gcb='git checkout -b'           # 新しいブランチを作成してチェックアウト
+alias gcd='git checkout develop'       # develop にチェックアウト
 alias gb='git branch'                 # ローカルブランチ一覧
 alias gba='git branch -a'             # リモートブランチ，ローカルブレンチ一覧表示
 alias gbd='git branch -d'             # ブランチ削除
 alias gbD='git branch -D'             # 強制ブランチ削除
 alias gbrd='git push origin --delete' # リモートブランチ削除
 alias gf='git fetch --prune'          # リモートリポジトリの最新情報取得
+alias clean-branch='git fetch --prune && git branch -vv | grep ": gone]" | awk '\''{print $1}'\'' | xargs git branch -D' # リモートリポジトリに存在しないローカルブランチを削除
 alias gm='git merge'                  # マージ
+alias gmrset='git merge --abort'      # マージ中止
 alias gp='git pull'                   # プル
 alias gs='git status && git log --oneline --graph --all'  # 状態とログを一度に確認
 alias gst='git status'                # git ステータス
@@ -36,7 +40,9 @@ alias gcm='git commit -m'             # コミット
 alias gca='git commit --amend'        # 最後のコミット修正
 
 alias gr='git reset'                  # リセット
-alias grh='git reset --hard'          # ハードリセット
+alias grh='git reset --hard ORIG_HEAD' # ハードリセット
+alias grs='git reset --soft ORIG_HEAD' # コミットを取り消し
+alias grso='git reset --soft HEAD~1'   # 直前のコミットを取り消し
 
 # スタッシュ操作
 alias gsta='git stash'                # スタッシュ保存
@@ -66,6 +72,15 @@ alias nn='npm run dev'          # 開発用スクリプト実行
 alias nb='npm run build'        # ビルドスクリプト実行
 alias nt='npm test'             # テスト実行
 alias nun='npm uninstall'       # パッケージアンインストール
+alias ns='npm start'            # 開発用スクリプト実行
+
+# next.js alias
+alias n='npm run dev'
+alias rn='rm -r .next/'
+alias rnn='rm -r node_modules/'
+alias nv='source venv/Scripts/activate'
+
+alias ip='ipconfig'
 
 # 履歴設定
 export HISTFILE=~/.bash_history    # 履歴ファイルのパス
@@ -80,4 +95,4 @@ export HISTCONTROL=ignoredups:erasedups
 
 # 各セッション終了時に履歴を保存
 shopt -s histappend
-
+export PATH="$HOME/.bun/bin:$PATH"

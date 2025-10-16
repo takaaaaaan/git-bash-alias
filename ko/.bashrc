@@ -13,15 +13,19 @@ alias c='clear'
 alias d='cd ~/Desktop'
 
 # git alias
+alias g='git'
 alias gc='git checkout'               # 브랜치 전환
 alias gcb='git checkout -b'           # 새 브랜치 생성 및 체크아웃
+alias gcd='git checkout develop'      # develop 브랜치 체크아웃
 alias gb='git branch'                 # 로컬 브랜치 목록
 alias gba='git branch -a'             # 원격 및 로컬 브랜치 목록 표시
 alias gbd='git branch -d'             # 브랜치 삭제
 alias gbD='git branch -D'             # 강제 브랜치 삭제
 alias gbrd='git push origin --delete' # 원격 브랜치 삭제
 alias gf='git fetch --prune'          # 원격 저장소 최신 정보 가져오기
+alias clean-branch='git fetch --prune && git branch -vv | grep ": gone]" | awk '\''{print $1}'\'' | xargs git branch -D' # 원격에 존재하지 않는 로컬 브랜치 삭제
 alias gm='git merge'                  # 병합
+alias gmrset='git merge --abort'      # 병합 중단
 alias gp='git pull'                   # 풀
 alias gs='git status && git log --oneline --graph --all'  # 상태와 로그를 한번에 확인
 alias gst='git status'                # git 상태
@@ -36,7 +40,9 @@ alias gcm='git commit -m'             # 커밋
 alias gca='git commit --amend'        # 마지막 커밋 수정
 
 alias gr='git reset'                  # 리셋
-alias grh='git reset --hard'          # 하드 리셋
+alias grh='git reset --hard ORIG_HEAD' # 하드 리셋
+alias grs='git reset --soft ORIG_HEAD' # 커밋 취소
+alias grso='git reset --soft HEAD~1'   # 마지막 커밋 취소
 
 # 스태시 작업
 alias gsta='git stash'                # 스태시 저장
@@ -66,6 +72,15 @@ alias nn='npm run dev'          # 개발용 스크립트 실행
 alias nb='npm run build'        # 빌드 스크립트 실행
 alias nt='npm test'             # 테스트 실행
 alias nun='npm uninstall'       # 패키지 제거
+alias ns='npm start'            # 시작 스크립트 실행
+
+# next.js alias
+alias n='npm run dev'
+alias rn='rm -r .next/'
+alias rnn='rm -r node_modules/'
+alias nv='source venv/Scripts/activate'
+
+alias ip='ipconfig'
 
 # 히스토리 설정
 export HISTFILE=~/.bash_history    # 히스토리 파일 경로
@@ -80,4 +95,4 @@ export HISTCONTROL=ignoredups:erasedups
 
 # 각 세션 종료 시 히스토리 저장
 shopt -s histappend
-
+export PATH="$HOME/.bun/bin:$PATH"
