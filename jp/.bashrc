@@ -78,7 +78,12 @@ alias ns='npm start'            # 開発用スクリプト実行
 alias n='npm run dev'
 alias rn='rm -r .next/'
 alias rnn='rm -r node_modules/'
-alias nv='source venv/Scripts/activate'
+
+# venv alias
+alias "venvr"='source venv/Scripts/activate'
+alias "venvd"='deactivate'
+alias "venvc"='python -m venv venv'
+alias "venvi"='pip install -r requirements.txt'
 
 alias ip='ipconfig'
 
@@ -86,13 +91,90 @@ alias ip='ipconfig'
 export HISTFILE=~/.bash_history    # 履歴ファイルのパス
 export HISTSIZE=1000              # 履歴の保存件数
 export HISTFILESIZE=2000          # 履歴ファイルの最大サイズ
-export HISTCONTROL=ignoredups     # 重複したコマンドを無視
+export HISTCONTROL=ignoredups:erasedups  # 重複したコマンドを無視・削除
+export HISTIGNORE="set +o*:set -o*"  # set +o/set -o コマンドを履歴から除外
 shopt -s histappend               # セッション間で履歴を追記
 PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND" # セッション間で同期
-
-# 重複したコマンドを記録しない
-export HISTCONTROL=ignoredups:erasedups
-
-# 各セッション終了時に履歴を保存
-shopt -s histappend
 export PATH="$HOME/.bun/bin:$PATH"
+
+# Conda prompt toggle settings
+# Default: show (base) prompt (1 = visible, 0 = hidden)
+export CONDA_PROMPT_VISIBLE=${CONDA_PROMPT_VISIBLE:-1}
+
+# Store the original PS1 pattern that conda would use
+# This will be set when conda initializes
+if [ -z "$__CONDA_ORIGINAL_PS1" ] && [ -n "$CONDA_DEFAULT_ENV" ]; then
+    # If conda is active, try to extract the base PS1
+    # by temporarily removing (base) and storing it
+    if [[ "$PS1" == *"(base)"* ]]; then
+        __CONDA_ORIGINAL_PS1=$(echo "$PS1" | sed -E 's/\(base\)\s*//g')
+        export __CONDA_ORIGINAL_PS1
+    fi
+fi
+
+# Function to toggle conda (base) prompt visibility
+toggle_conda_prompt() {
+    if [ "$CONDA_PROMPT_VISIBLE" = "1" ]; then
+        export CONDA_PROMPT_VISIBLE=0
+        echo "Conda prompt (base) is now HIDDEN"
+    else
+        export CONDA_PROMPT_VISIBLE=1
+        echo "Conda prompt (base) is now VISIBLE"
+    fi
+}
+
+# Alias for easy toggling
+alias tcp='toggle_conda_prompt'
+
+# Custom prompt function to control conda prompt display
+__custom_conda_prompt() {
+    if [ -n "$CONDA_DEFAULT_ENV" ]; then
+        # Store original PS1 on first run if not already stored
+        if [ -z "$__CONDA_ORIGINAL_PS1" ]; then
+            # Extract base PS1 by removing (base) if present
+            if [[ "$PS1" == *"(base)"* ]]; then
+                __CONDA_ORIGINAL_PS1=$(echo "$PS1" | sed -E 's/\(base\)\s*//g')
+                export __CONDA_ORIGINAL_PS1
+            else
+                # If (base) is not present, current PS1 is the base
+                __CONDA_ORIGINAL_PS1="$PS1"
+                export __CONDA_ORIGINAL_PS1
+            fi
+        fi
+        
+        if [ "$CONDA_PROMPT_VISIBLE" = "0" ]; then
+            # Hide (base): use the stored base PS1
+            if [ -n "$__CONDA_ORIGINAL_PS1" ]; then
+                PS1="$__CONDA_ORIGINAL_PS1"
+            else
+                # Fallback: remove (base) from current PS1
+                PS1=$(echo "$PS1" | sed -E 's/\(base\)\s*//g')
+            fi
+        else
+            # Show (base): ensure (base) is present
+            if [[ "$PS1" != *"(base)"* ]]; then
+                # Use stored base PS1 and add (base)
+                if [ -n "$__CONDA_ORIGINAL_PS1" ]; then
+                    PS1="(base) $__CONDA_ORIGINAL_PS1"
+                else
+                    # Fallback: add (base) to current PS1
+                    PS1="(base) $PS1"
+                fi
+            fi
+        fi
+    fi
+}
+
+# Hook into PROMPT_COMMAND to apply custom prompt
+if [ -z "$__CONDA_PROMPT_HOOKED" ]; then
+    export __CONDA_PROMPT_HOOKED=1
+    # Wrap existing PROMPT_COMMAND
+    if [ -n "$PROMPT_COMMAND" ]; then
+        # Check if PROMPT_COMMAND already contains our function
+        if [[ "$PROMPT_COMMAND" != *"__custom_conda_prompt"* ]]; then
+            PROMPT_COMMAND="__custom_conda_prompt; $PROMPT_COMMAND"
+        fi
+    else
+        PROMPT_COMMAND="__custom_conda_prompt"
+    fi
+fi

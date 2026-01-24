@@ -78,7 +78,12 @@ alias ns='npm start'            # Run start script
 alias n='npm run dev'
 alias rn='rm -r .next/'
 alias rnn='rm -r node_modules/'
-alias nv='source venv/Scripts/activate'
+
+# venv alias
+alias "venvr"='source venv/Scripts/activate'
+alias "venvd"='deactivate'
+alias "venvc"='python -m venv venv'
+alias "venvi"='pip install -r requirements.txt'
 
 alias ip='ipconfig'
 
@@ -86,15 +91,10 @@ alias ip='ipconfig'
 export HISTFILE=~/.bash_history    # History file path
 export HISTSIZE=1000              # Number of history entries to save
 export HISTFILESIZE=2000          # Maximum size of history file
-export HISTCONTROL=ignoredups     # Ignore duplicate commands
+export HISTCONTROL=ignoredups:erasedups  # Ignore and erase duplicate commands
+export HISTIGNORE="set +o*:set -o*"  # Exclude set +o/set -o commands from history
 shopt -s histappend               # Append history between sessions
 PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND" # Sync between sessions
-
-# Don't record duplicate commands
-export HISTCONTROL=ignoredups:erasedups
-
-# Save history when each session ends
-shopt -s histappend
 export PATH="$HOME/.bun/bin:$PATH"
 
 # Conda prompt toggle settings
