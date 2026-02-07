@@ -33,7 +33,7 @@ alias gl='git log --oneline --graph --all' # 簡易ログ表示
 alias gll='git log --stat'            # 詳細ログ
 
 alias gps='git push'                  # プッシュ
-alias gpf='git push --force'          # 強制プッシュ
+alias gpf='git push --force-with-lease' # 強制プッシュ (リモートブランチが更新されている場合)
 alias ga='git add .'                  # すべての変更をステージング
 alias gaa='git add -A'                # すべての変更 (削除されたファイルも含む) をステージング
 alias gcm='git commit -m'             # コミット
@@ -62,6 +62,30 @@ alias grbd='git rebase develop'       # develop にリベース
 
 # リベース前のバックアップ
 alias grbb='git branch backup-before-rebase'  # リベース前にバックアップ
+
+# Gitエイリアスの補完（Git for Windowsなどからgit completionがロードされている必要がある）
+__git_complete g   _git
+__git_complete gc  _git_checkout
+__git_complete gcb _git_checkout
+__git_complete gb  _git_branch
+__git_complete gba _git_branch
+__git_complete gbd _git_branch
+__git_complete gbD _git_branch
+__git_complete gbrd _git_push
+__git_complete gf  _git_fetch
+__git_complete gm  _git_merge
+__git_complete gp  _git_pull
+__git_complete gst _git_status
+__git_complete gps _git_push
+__git_complete gpf _git_push
+__git_complete gcm _git_commit
+__git_complete gca _git_commit
+__git_complete gr  _git_reset
+__git_complete gsta _git_stash
+__git_complete gstaap _git_stash
+__git_complete gstd _git_stash
+__git_complete grb  _git_rebase
+__git_complete grbi _git_rebase
 
 # npm alias
 alias ni='npm install'          # パッケージインストール
@@ -125,6 +149,7 @@ toggle_conda_prompt() {
 
 # Alias for easy toggling
 alias tcp='toggle_conda_prompt'
+alias vv='toggle_conda_prompt'
 
 # Custom prompt function to control conda prompt display
 __custom_conda_prompt() {
