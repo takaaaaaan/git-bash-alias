@@ -15,6 +15,7 @@ alias d='cd ~/Desktop'
 # git alias
 alias g='git'
 alias gc='git checkout'               # Switch branch
+alias gs='git switch'               # Switch branch
 alias gcb='git checkout -b'           # Create new branch and checkout
 alias gcd='git checkout develop'      # Checkout develop branch
 alias gb='git branch'                 # List local branches
@@ -27,7 +28,6 @@ alias clean-branch='git fetch --prune && git branch -vv | grep ": gone]" | awk '
 alias gm='git merge'                  # Merge
 alias gmrset='git merge --abort'      # Abort merge
 alias gp='git pull'                   # Pull
-alias gs='git status && git log --oneline --graph --all'  # Check status and log at once
 alias gst='git status'                # Git status
 alias gl='git log --oneline --graph --all' # Simple log display
 alias gll='git log --stat'            # Detailed log
@@ -72,6 +72,7 @@ __git_complete gba _git_branch
 __git_complete gbd _git_branch
 __git_complete gbD _git_branch
 __git_complete gbrd _git_push
+__git_complete gs  _git_switch
 __git_complete gf  _git_fetch
 __git_complete gm  _git_merge
 __git_complete gp  _git_pull
