@@ -18,6 +18,7 @@ alias gc='git checkout'               # Switch branch
 alias gs='git switch'               # Switch branch
 alias gcb='git checkout -b'           # Create new branch and checkout
 alias gcd='git checkout develop'      # Checkout develop branch
+alias gcmain='git checkout main'      # Checkout main branch
 alias gb='git branch'                 # List local branches
 alias gba='git branch -a'             # List remote and local branches
 alias gbd='git branch -d'             # Delete branch
@@ -104,6 +105,13 @@ alias n='npm run dev'
 alias rn='rm -r .next/'
 alias rnn='rm -r node_modules/'
 
+# claude alias
+alias cl='claude'
+alias cld='claude --dangerously-skip-permissions'
+alias cu='ccusage daily'
+alias cub='ccusage blocks --live'
+alias cum='ccusage monthly'
+
 # venv alias
 alias "venvr"='source venv/Scripts/activate'
 alias "venvd"='deactivate'
@@ -121,6 +129,19 @@ export HISTIGNORE="set +o*:set -o*"  # Exclude set +o/set -o commands from histo
 shopt -s histappend               # Append history between sessions
 PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND" # Sync between sessions
 export PATH="$HOME/.bun/bin:$PATH"
+
+# proto (version manager) settings
+export PROTO_HOME="$HOME/.proto"
+export PATH="$PROTO_HOME/shims:$PROTO_HOME/bin:$PATH"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if [ -f "$HOME/miniconda3/Scripts/conda.exe" ]; then
+    eval "$("$HOME/miniconda3/Scripts/conda.exe" 'shell.bash' 'hook')"
+elif [ -f "$HOME/anaconda3/Scripts/conda.exe" ]; then
+    eval "$("$HOME/anaconda3/Scripts/conda.exe" 'shell.bash' 'hook')"
+fi
+# <<< conda initialize <<<
 
 # Conda prompt toggle settings
 # Default: show (base) prompt (1 = visible, 0 = hidden)
